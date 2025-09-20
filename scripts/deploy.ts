@@ -1,4 +1,4 @@
-import abi from '../artifacts/contracts/Store.sol/Store.json'
+import abi from '../artifacts/contracts/RealEstate.sol/RealEstate.json'
 import { connection } from './config.js'
 import { network } from 'hardhat'
 

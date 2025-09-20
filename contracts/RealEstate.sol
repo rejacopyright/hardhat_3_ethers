@@ -25,9 +25,9 @@ contract RealEstate {
     }
 
     // Buy Item
-    function buyItem() public payable {
+    function buyItem(uint price) public payable {
         require(stock > 0, "No Item");
-        require(msg.value == itemPrice, "Money doesn't match");
+        require(msg.value == price, "Money doesn't match");
 
         stock -= 1;
         buyerCount += 1;
