@@ -1,30 +1,30 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-contract RealEstate {
-    address public owner;
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+
+contract RealEstate is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     uint public itemPrice;
     uint public stock;
     uint public buyerCount;
-
     mapping(uint => address) public buyers;
 
-    constructor(uint _itemPrice, uint _stock) {
-        owner = msg.sender;
+    function initialize(uint _itemPrice, uint _stock) public initializer {
+        __Ownable_init(msg.sender);
+        __UUPSUpgradeable_init();
+
         itemPrice = _itemPrice;
         stock = _stock;
         buyerCount = 0;
     }
 
-    // Add Item
-    function addItem(uint amount) public {
-        // require(msg.sender == owner, "Only owner can add items");
+    function addItem(uint amount) public onlyOwner {
         require(amount > 0, "Amount must be greater than 0");
-
         stock += amount;
     }
 
-    // Buy Item
     function buyItem(uint price) public payable {
         require(stock > 0, "No Item");
         require(msg.value == price, "Money doesn't match");
@@ -34,13 +34,13 @@ contract RealEstate {
         buyers[buyerCount] = msg.sender;
     }
 
-    // View Contract Balance
     function getBalance() public view returns (uint) {
         return address(this).balance;
     }
 
-    // View Buyer
     function getBuyer(uint buyerId) public view returns (address) {
         return buyers[buyerId];
     }
+
+    function _authorizeUpgrade(address) internal override onlyOwner {}
 }
