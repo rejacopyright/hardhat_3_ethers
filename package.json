@@ -4,6 +4,7 @@
     "build": "hardhat build",
     "nodes": "hardhat node",
     "deploy": "hardhat run scripts/deploy.ts",
+    "deploy:up": "hardhat compile && hardhat run scripts/deploy-upgrade.ts",
     "test": "hardhat test solidity",
     "test:node": "hardhat test nodejs",
     "clean": "hardhat clean"

@@ -24,7 +24,7 @@ async function main() {
   const proxy = await Proxy.deploy(contract.target, initCalldata);
   await proxy.waitForDeployment();
 
-  // 3. Attach proxy
+  // 3. Attach Proxy
   const [deployer] = await ethers.getSigners();
   const proxiedContract = factory.attach(proxy.target);
 
